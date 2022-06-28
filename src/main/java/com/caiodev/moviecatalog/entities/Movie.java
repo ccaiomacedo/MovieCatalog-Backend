@@ -1,11 +1,19 @@
 package com.caiodev.moviecatalog.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+
+@Entity
+@Table(name = "tb_movie")
 public class Movie implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String synopse;
@@ -15,11 +23,32 @@ public class Movie implements Serializable {
     private Integer hour;
     private Integer min;
 
-    public Movie(){
+    @OneToOne(mappedBy = "movie")
+    private Trailer trailer;
+
+    @ManyToOne
+    private MovieList movieList;
+
+    @OneToMany
+    private List<User> likes = new ArrayList<>();
+
+    @OneToMany
+    private List<User> deslikes = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "tb_movie_genre", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> genres = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "tb_movie_topics", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
+    private List<Topic> topics = new ArrayList<>();
+
+
+    public Movie() {
 
     }
 
-    public Movie(Long id, String title, String synopse, String imgUri, String classification, String videoUri, Integer hour, Integer min) {
+    public Movie(Long id, String title, String synopse, String imgUri, String classification, String videoUri, Integer hour, Integer min, Trailer trailer, MovieList movieList) {
         this.id = id;
         this.title = title;
         this.synopse = synopse;
@@ -28,6 +57,8 @@ public class Movie implements Serializable {
         this.videoUri = videoUri;
         this.hour = hour;
         this.min = min;
+        this.trailer = trailer;
+        this.movieList = movieList;
     }
 
     public Long getId() {
@@ -92,6 +123,38 @@ public class Movie implements Serializable {
 
     public void setMin(Integer min) {
         this.min = min;
+    }
+
+    public Trailer getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(Trailer trailer) {
+        this.trailer = trailer;
+    }
+
+    public MovieList getMovieList() {
+        return movieList;
+    }
+
+    public void setMovieList(MovieList movieList) {
+        this.movieList = movieList;
+    }
+
+    public List<User> getLikes() {
+        return likes;
+    }
+
+    public List<User> getDeslikes() {
+        return deslikes;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public List<Topic> getTopics() {
+        return topics;
     }
 
     @Override

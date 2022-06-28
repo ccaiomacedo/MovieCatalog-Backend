@@ -1,25 +1,41 @@
 package com.caiodev.moviecatalog.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.*;
 
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-    private String name;
+    private String email;
     private String password;
+
+    @ManyToOne
+    private Plan plan;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Profile> profiles = new ArrayList<>();
 
     public User() {
 
     }
 
-    public User(Long id, String username, String name, String password) {
+    public User(Long id, String username, String email, String password, Plan plan) {
         this.id = id;
         this.username = username;
-        this.name = name;
+        this.email = email;
         this.password = password;
+        this.plan = plan;
     }
 
     public Long getId() {
@@ -38,12 +54,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -52,6 +68,22 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public List<Profile> getProfiles() {
+        return profiles;
     }
 
     @Override

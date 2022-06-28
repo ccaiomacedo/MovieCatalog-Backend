@@ -8,29 +8,31 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "tb_plan")
-public class Plan implements Serializable {
+@Table(name = "tb_profile")
+public class Profile implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double price;
     private String name;
 
-    @OneToMany(mappedBy = "plan")
-    private List<User> user = new ArrayList<>();
+    @ManyToOne
+    private User user;
 
-    @OneToMany
-    private List<Profile> profiles = new ArrayList<>();
+    @OneToMany(mappedBy = "profile")
+    private List<Notification> notifications = new ArrayList<>();
 
-    public Plan(){
+    @ManyToMany
+    private List<Section> sections = new ArrayList<>();
 
+    public Profile() {
     }
-    public Plan(Long id, Double price, String name) {
+
+    public Profile(Long id, String name, User user) {
         this.id = id;
-        this.price = price;
         this.name = name;
+        this.user = user;
     }
 
     public Long getId() {
@@ -41,14 +43,6 @@ public class Plan implements Serializable {
         this.id = id;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
     public String getName() {
         return name;
     }
@@ -57,20 +51,28 @@ public class Plan implements Serializable {
         this.name = name;
     }
 
-    public List<User> getUser() {
+    public User getUser() {
         return user;
     }
 
-    public List<Profile> getProfiles() {
-        return profiles;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Plan plan = (Plan) o;
-        return id.equals(plan.id);
+        Profile profile = (Profile) o;
+        return id.equals(profile.id);
     }
 
     @Override

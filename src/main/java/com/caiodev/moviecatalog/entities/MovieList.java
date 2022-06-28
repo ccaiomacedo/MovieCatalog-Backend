@@ -1,15 +1,26 @@
 package com.caiodev.moviecatalog.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+
+@Entity
+@Table(name = "tb_movie_list")
 public class MovieList implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
 
-    public MovieList(){
+    @OneToMany(mappedBy = "movieList")
+    private List<Movie> movies = new ArrayList<>();
+
+    public MovieList() {
 
     }
 
@@ -32,6 +43,10 @@ public class MovieList implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
     }
 
     @Override

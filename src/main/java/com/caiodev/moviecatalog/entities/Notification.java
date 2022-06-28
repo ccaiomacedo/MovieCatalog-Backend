@@ -1,25 +1,35 @@
 package com.caiodev.moviecatalog.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+
+@Entity
+@Table(name = "tb_notification")
 public class Notification implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String imgUri;
     private String message;
     private Instant moment;
 
+    @ManyToOne
+    private Profile profile;
+
     public Notification() {
     }
 
-    public Notification(Long id, String imgUri, String message, Instant moment) {
+    public Notification(Long id, String imgUri, String message, Instant moment, Profile profile) {
         this.id = id;
         this.imgUri = imgUri;
         this.message = message;
         this.moment = moment;
+        this.profile = profile;
     }
 
     public Long getId() {
@@ -52,6 +62,14 @@ public class Notification implements Serializable {
 
     public void setMoment(Instant moment) {
         this.moment = moment;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     @Override

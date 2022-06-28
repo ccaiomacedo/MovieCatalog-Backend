@@ -1,22 +1,40 @@
 package com.caiodev.moviecatalog.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+
+@Entity
+@Table(name = "tb_trailer")
 public class Trailer implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String videoUri;
+
+    @OneToOne()
+    private Movie movie;
 
     public Trailer() {
 
     }
 
-    public Trailer(Long id, String videoUri) {
+    public Trailer(Long id, String videoUri, Movie movie) {
         this.id = id;
         this.videoUri = videoUri;
+        this.movie = movie;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
     public Long getId() {

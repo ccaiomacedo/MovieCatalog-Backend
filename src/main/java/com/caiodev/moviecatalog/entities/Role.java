@@ -3,19 +3,18 @@ package com.caiodev.moviecatalog.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Topic implements Serializable {
+public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String title;
+    private String authority;
 
-    public Topic(){
-
+    public Role() {
     }
 
-    public Topic(Long id, String title) {
+    public Role(Long id, String authority) {
         this.id = id;
-        this.title = title;
+        this.authority = authority;
     }
 
     public Long getId() {
@@ -26,20 +25,20 @@ public class Topic implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getAuthority() {
+        return authority;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Topic topic = (Topic) o;
-        return id.equals(topic.id);
+        Role role = (Role) o;
+        return id.equals(role.id);
     }
 
     @Override

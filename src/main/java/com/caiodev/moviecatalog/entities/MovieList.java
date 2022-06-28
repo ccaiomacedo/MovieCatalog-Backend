@@ -3,17 +3,17 @@ package com.caiodev.moviecatalog.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Topic implements Serializable {
+public class MovieList implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
     private String title;
 
-    public Topic(){
+    public MovieList(){
 
     }
 
-    public Topic(Long id, String title) {
+    public MovieList(Long id, String title) {
         this.id = id;
         this.title = title;
     }
@@ -38,8 +38,8 @@ public class Topic implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Topic topic = (Topic) o;
-        return id.equals(topic.id);
+        MovieList movieList = (MovieList) o;
+        return id.equals(movieList.id);
     }
 
     @Override

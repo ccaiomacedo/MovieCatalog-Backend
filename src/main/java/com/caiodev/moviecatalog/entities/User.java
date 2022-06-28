@@ -3,20 +3,23 @@ package com.caiodev.moviecatalog.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Genre implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
     private Long id;
+    private String username;
     private String name;
+    private String password;
 
-    public Genre(){
+    public User() {
 
     }
 
-    public Genre(Long id, String name) {
+    public User(Long id, String username, String name, String password) {
         this.id = id;
+        this.username = username;
         this.name = name;
+        this.password = password;
     }
 
     public Long getId() {
@@ -27,6 +30,14 @@ public class Genre implements Serializable {
         this.id = id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getName() {
         return name;
     }
@@ -35,12 +46,20 @@ public class Genre implements Serializable {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Genre genre = (Genre) o;
-        return Objects.equals(id, genre.id);
+        User user = (User) o;
+        return id.equals(user.id);
     }
 
     @Override

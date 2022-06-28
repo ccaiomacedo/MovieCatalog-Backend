@@ -1,21 +1,20 @@
 package com.caiodev.moviecatalog.entities;
 
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Topic implements Serializable {
+public class Offer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String title;
 
-    public Topic(){
+    public Offer() {
 
     }
 
-    public Topic(Long id, String title) {
+    public Offer(Long id) {
         this.id = id;
-        this.title = title;
     }
 
     public Long getId() {
@@ -26,20 +25,12 @@ public class Topic implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Topic topic = (Topic) o;
-        return id.equals(topic.id);
+        Offer offer = (Offer) o;
+        return id.equals(offer.id);
     }
 
     @Override

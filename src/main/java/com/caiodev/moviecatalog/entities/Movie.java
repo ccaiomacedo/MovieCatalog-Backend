@@ -1,8 +1,10 @@
 package com.caiodev.moviecatalog.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Movie {
+public class Movie implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String title;

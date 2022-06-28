@@ -3,19 +3,20 @@ package com.caiodev.moviecatalog.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Topic implements Serializable {
+public class Plan implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String title;
+    private Double price;
+    private String name;
 
-    public Topic(){
+    public Plan(){
 
     }
-
-    public Topic(Long id, String title) {
+    public Plan(Long id, Double price, String name) {
         this.id = id;
-        this.title = title;
+        this.price = price;
+        this.name = name;
     }
 
     public Long getId() {
@@ -26,20 +27,28 @@ public class Topic implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Topic topic = (Topic) o;
-        return id.equals(topic.id);
+        Plan plan = (Plan) o;
+        return id.equals(plan.id);
     }
 
     @Override

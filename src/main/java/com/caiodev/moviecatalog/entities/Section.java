@@ -1,21 +1,25 @@
 package com.caiodev.moviecatalog.entities;
 
-import java.io.Serializable;
-import java.util.Objects;
 
-public class Topic implements Serializable {
+import org.springframework.context.annotation.Profile;
+
+import java.io.Serializable;
+import java.util.*;
+
+public class Section implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String title;
 
-    public Topic(){
+    private List<Topic> topics = new ArrayList<>();
 
+    private Set<Profile> profiles = new HashSet<>();
+
+    public Section() {
     }
 
-    public Topic(Long id, String title) {
+    public Section(Long id) {
         this.id = id;
-        this.title = title;
     }
 
     public Long getId() {
@@ -26,20 +30,20 @@ public class Topic implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public List<Topic> getTopics() {
+        return topics;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public Set<Profile> getProfiles() {
+        return profiles;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Topic topic = (Topic) o;
-        return id.equals(topic.id);
+        Section section = (Section) o;
+        return id.equals(section.id);
     }
 
     @Override

@@ -21,9 +21,6 @@ public class Plan implements Serializable {
     @OneToMany(mappedBy = "plan")
     private List<User> user = new ArrayList<>();
 
-    @OneToMany
-    private List<Profile> profiles = new ArrayList<>();
-
     public Plan(){
 
     }
@@ -59,10 +56,6 @@ public class Plan implements Serializable {
 
     public List<User> getUser() {
         return user;
-    }
-
-    public List<Profile> getProfiles() {
-        return profiles;
     }
 
     @Override

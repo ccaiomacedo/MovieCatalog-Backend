@@ -20,6 +20,9 @@ public class Profile implements Serializable {
     @ManyToOne
     private User user;
 
+    @OneToOne()
+    private MovieList movieList;
+
     @OneToMany(mappedBy = "profile")
     private List<Notification> notifications = new ArrayList<>();
 

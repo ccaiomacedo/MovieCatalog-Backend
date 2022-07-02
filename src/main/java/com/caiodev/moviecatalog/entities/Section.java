@@ -14,6 +14,7 @@ public class Section implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
 
     @ManyToMany
     @JoinTable(name = "tb_section_topic", joinColumns = @JoinColumn(name = "section_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
@@ -26,8 +27,9 @@ public class Section implements Serializable {
     public Section() {
     }
 
-    public Section(Long id) {
+    public Section(Long id, String name) {
         this.id = id;
+        this.name = name;
     }
 
     public Long getId() {
@@ -36,6 +38,14 @@ public class Section implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Topic> getTopics() {

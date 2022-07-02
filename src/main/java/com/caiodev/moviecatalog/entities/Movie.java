@@ -16,23 +16,31 @@ public class Movie implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String synopse;
+
+    @Column(columnDefinition = "TEXT")
     private String imgUri;
     private String classification;
+
+    @Column(columnDefinition = "TEXT")
     private String videoUri;
     private Integer hour;
     private Integer min;
 
-    @OneToOne(mappedBy = "movie")
+    @OneToOne()
     private Trailer trailer;
 
     @ManyToOne
     private MovieList movieList;
 
-    @OneToMany
+    @ManyToMany()
+    @JoinTable(name = "tb_like_movie", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> likes = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany()
+    @JoinTable(name = "tb_deslike_movie", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> deslikes = new ArrayList<>();
 
     @ManyToMany
@@ -40,7 +48,7 @@ public class Movie implements Serializable {
     private List<Genre> genres = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(name = "tb_movie_topics", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
+    @JoinTable(name = "tb_movie_topic", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
     private List<Topic> topics = new ArrayList<>();
 
 

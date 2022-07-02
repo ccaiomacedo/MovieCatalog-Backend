@@ -20,6 +20,9 @@ public class MovieList implements Serializable {
     @OneToMany(mappedBy = "movieList")
     private List<Movie> movies = new ArrayList<>();
 
+    @OneToOne(mappedBy = "movieList")
+    private Profile profile;
+
     public MovieList() {
 
     }

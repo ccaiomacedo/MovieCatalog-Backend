@@ -10,21 +10,25 @@ import java.util.Objects;
 public class Trailer implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String videoUri;
 
-    @OneToOne()
+    @OneToOne(mappedBy = "trailer")
     private Movie movie;
 
     public Trailer() {
 
     }
 
-    public Trailer(Long id, String videoUri, Movie movie) {
+    public Trailer(Long id, String title, String videoUri, Movie movie) {
         this.id = id;
+        this.title = title;
         this.videoUri = videoUri;
         this.movie = movie;
     }
@@ -51,6 +55,14 @@ public class Trailer implements Serializable {
 
     public void setVideoUri(String videoUri) {
         this.videoUri = videoUri;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override

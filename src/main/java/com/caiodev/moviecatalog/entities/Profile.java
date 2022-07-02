@@ -70,6 +70,14 @@ public class Profile implements Serializable {
         return notifications;
     }
 
+    public MovieList getMovieList() {
+        return movieList;
+    }
+
+    public void setMovieList(MovieList movieList) {
+        this.movieList = movieList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

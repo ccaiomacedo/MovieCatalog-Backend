@@ -55,4 +55,8 @@ public class MovieListDTO implements Serializable {
     public void setProfileId(Long profileId) {
         this.profileId = profileId;
     }
+
+    public List<MovieDTO> getMovies() {
+        return movies;
+    }
 }

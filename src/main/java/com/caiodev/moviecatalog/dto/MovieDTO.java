@@ -2,6 +2,7 @@ package com.caiodev.moviecatalog.dto;
 
 
 import com.caiodev.moviecatalog.entities.Movie;
+import com.caiodev.moviecatalog.entities.MovieList;
 
 import java.io.Serializable;
 
@@ -10,7 +11,7 @@ public class MovieDTO implements Serializable {
 
     private Long id;
     private String title;
-    private String synopse;
+    private String synopsis;
     private String imgUri;
     private String classification;
     private String videoUri;
@@ -19,35 +20,31 @@ public class MovieDTO implements Serializable {
 
     private Long trailerId;
 
-    private Long movieListId;
-
     public MovieDTO() {
     }
 
-    public MovieDTO(Long id, String title, String synopse, String imgUri, String classification, String videoUri, Integer hour, Integer min, Long trailerId, Long movieListId) {
+    public MovieDTO(Long id, String title, String synopsis, String imgUri, String classification, String videoUri, Integer hour, Integer min, Long trailerId) {
         this.id = id;
         this.title = title;
-        this.synopse = synopse;
+        this.synopsis = synopsis;
         this.imgUri = imgUri;
         this.classification = classification;
         this.videoUri = videoUri;
         this.hour = hour;
         this.min = min;
         this.trailerId = trailerId;
-        this.movieListId = movieListId;
     }
 
     public MovieDTO(Movie entity) {
         id = entity.getId();
         title = entity.getTitle();
-        synopse = entity.getSynopse();
+        synopsis = entity.getSynopsis();
         imgUri = entity.getImgUri();
         classification = entity.getClassification();
         videoUri = entity.getVideoUri();
         hour = entity.getHour();
         min = entity.getMin();
         trailerId = entity.getTrailer().getId();
-        movieListId = entity.getMovieList().getId();
     }
 
     public Long getId() {
@@ -66,12 +63,12 @@ public class MovieDTO implements Serializable {
         this.title = title;
     }
 
-    public String getSynopse() {
-        return synopse;
+    public String getSynopsis() {
+        return synopsis;
     }
 
-    public void setSynopse(String synopse) {
-        this.synopse = synopse;
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
     }
 
     public String getImgUri() {
@@ -122,11 +119,4 @@ public class MovieDTO implements Serializable {
         this.trailerId = trailerId;
     }
 
-    public Long getMovieListId() {
-        return movieListId;
-    }
-
-    public void setMovieListId(Long movieListId) {
-        this.movieListId = movieListId;
-    }
 }

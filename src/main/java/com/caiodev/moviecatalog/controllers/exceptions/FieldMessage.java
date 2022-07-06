@@ -2,7 +2,7 @@ package com.caiodev.moviecatalog.controllers.exceptions;
 
 import java.io.Serializable;
 
-public class FieldMessage implements Serializable { // serve pro objeto ser convertido em bytes. Pra por exemplo poder passar em arquivos, nas redes...
+public class FieldMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

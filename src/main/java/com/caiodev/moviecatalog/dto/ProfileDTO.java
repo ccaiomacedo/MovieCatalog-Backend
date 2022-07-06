@@ -12,24 +12,21 @@ public class ProfileDTO implements Serializable {
     private Long id;
     private String name;
     private Long userId;
-    private Long movieListId;
     private List<NotificationDTO> notifications = new ArrayList<>();
 
     public ProfileDTO() {
     }
 
-    public ProfileDTO(Long id, String name, Long userId, Long movieListId) {
+    public ProfileDTO(Long id, String name, Long userId) {
         this.id = id;
         this.name = name;
         this.userId = userId;
-        this.movieListId = movieListId;
     }
 
     public ProfileDTO(Profile entity) {
         id = entity.getId();
         name = entity.getName();
         userId = entity.getUser().getId();
-        movieListId = entity.getMovieList().getId();
         entity.getNotifications().forEach(notification -> this.notifications.add(new NotificationDTO(notification)));
     }
 
@@ -57,11 +54,7 @@ public class ProfileDTO implements Serializable {
         this.userId = userId;
     }
 
-    public Long getMovieListId() {
-        return movieListId;
-    }
-
-    public void setMovieListId(Long movieListId) {
-        this.movieListId = movieListId;
+    public List<NotificationDTO> getNotifications() {
+        return notifications;
     }
 }

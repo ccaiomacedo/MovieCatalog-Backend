@@ -19,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -44,8 +46,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
-        User user = repository.getOne(id);
-        return new UserDTO(user);
+        Optional<User> obj = repository.findById(id);
+        User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Resource not found!"));
+        return new UserDTO(entity);
     }
 
     @Transactional
@@ -69,7 +72,6 @@ public class UserService {
         }
     }
 
-    @Transactional
     public void delete(Long id) {
         try {
             repository.deleteById(id);

@@ -16,7 +16,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private Environment env;
 
-    private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**", "/users/**"};
+    private static final String[] PUBLIC = {"/**/**"};
 
     private static final String[] ADMIN = {};
 

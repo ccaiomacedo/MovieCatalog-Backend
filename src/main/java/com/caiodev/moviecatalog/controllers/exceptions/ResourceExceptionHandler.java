@@ -1,6 +1,7 @@
 package com.caiodev.moviecatalog.controllers.exceptions;
 
 import com.caiodev.moviecatalog.services.exceptions.DatabaseException;
+import com.caiodev.moviecatalog.services.exceptions.MaxProfileException;
 import com.caiodev.moviecatalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,17 @@ public class ResourceExceptionHandler {
         err.setTimeStamp(Instant.now());
         err.setStatus(status.value());
         err.setError("Database exception");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+    @ExceptionHandler(MaxProfileException.class)
+    public ResponseEntity<StandardError> maxLimit(MaxProfileException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError();
+        err.setTimeStamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("Max limit");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);

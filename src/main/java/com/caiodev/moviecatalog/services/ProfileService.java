@@ -7,8 +7,10 @@ import com.caiodev.moviecatalog.dto.UserDTO;
 import com.caiodev.moviecatalog.entities.*;
 import com.caiodev.moviecatalog.repositories.NotificationRepository;
 import com.caiodev.moviecatalog.repositories.ProfileRepository;
+import com.caiodev.moviecatalog.repositories.UserRepository;
 import com.caiodev.moviecatalog.services.exceptions.DatabaseException;
 import com.caiodev.moviecatalog.services.exceptions.ResourceNotFoundException;
+import com.caiodev.moviecatalog.util.ProfileLimit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,6 +26,9 @@ public class ProfileService {
 
     @Autowired
     ProfileRepository repository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     NotificationRepository notificationRepository;
@@ -44,6 +49,9 @@ public class ProfileService {
     @Transactional
     public ProfileDTO insert(ProfileDTO dto) {
         Profile entity = new Profile();
+        Long userId = dto.getUserId();
+        User user = userRepository.getOne(userId);
+        ProfileLimit.maxLimit(new UserDTO(user));
         copyEntityToDto(entity, dto);
         entity = repository.save(entity);
         return new ProfileDTO(entity);

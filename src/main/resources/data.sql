@@ -47,10 +47,10 @@ INSERT INTO tb_movie_list(title) values ('Minha Lista');
 INSERT INTO tb_movie_list(title) values ('Minha Lista');
 INSERT INTO tb_movie_list(title) values ('Minha Lista');
 
-INSERT INTO tb_profile(name,user_id,movie_list_id) values ('Luiz',1,1);
-INSERT INTO tb_profile(name,user_id,movie_list_id) values ('Bob',1,2);
-INSERT INTO tb_profile(name,user_id,movie_list_id) values ('Maria',1,3);
-INSERT INTO tb_profile(name,user_id,movie_list_id) values ('jeredy',1,4);
+INSERT INTO tb_profile(name,user_id) values ('Luiz',1);
+INSERT INTO tb_profile(name,user_id) values ('Bob',1);
+INSERT INTO tb_profile(name,user_id) values ('Maria',1);
+INSERT INTO tb_profile(name,user_id) values ('jeredy',1);
 
 INSERT INTO tb_profile(name,user_id,movie_list_id) values ('José',2,5);
 INSERT INTO tb_profile(name,user_id,movie_list_id) values ('João',2,6);

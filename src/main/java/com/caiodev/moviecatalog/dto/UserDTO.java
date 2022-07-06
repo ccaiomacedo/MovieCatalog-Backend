@@ -1,6 +1,5 @@
 package com.caiodev.moviecatalog.dto;
 
-import com.caiodev.moviecatalog.entities.Profile;
 import com.caiodev.moviecatalog.entities.User;
 
 import java.io.Serializable;

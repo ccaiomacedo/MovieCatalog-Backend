@@ -3,7 +3,6 @@ package com.caiodev.moviecatalog.controllers;
 import com.caiodev.moviecatalog.dto.UserDTO;
 import com.caiodev.moviecatalog.dto.UserInsertDTO;
 import com.caiodev.moviecatalog.dto.UserUpdateDTO;
-import com.caiodev.moviecatalog.entities.User;
 import com.caiodev.moviecatalog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +39,7 @@ public class UserController {
         return ResponseEntity.created(uri).body(newDto);
     }
 
-    @PostMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<UserDTO> update(@RequestBody UserUpdateDTO dto, @PathVariable Long id) {
         UserDTO newDto = service.update(dto, id);
         return ResponseEntity.ok().body(newDto);

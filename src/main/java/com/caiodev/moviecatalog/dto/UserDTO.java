@@ -1,9 +1,12 @@
 package com.caiodev.moviecatalog.dto;
 
+import com.caiodev.moviecatalog.entities.Profile;
 import com.caiodev.moviecatalog.entities.User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class UserDTO implements Serializable {
@@ -15,6 +18,8 @@ public class UserDTO implements Serializable {
     private Long plan;
 
     private Set<RoleDTO> roles = new HashSet<>();
+
+    private List<ProfileDTO> profiles = new ArrayList<>();
 
     public UserDTO() {
     }
@@ -32,6 +37,7 @@ public class UserDTO implements Serializable {
         email = entity.getEmail();
         plan = entity.getPlan().getId();
         entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
+        entity.getProfiles().forEach(profile -> this.profiles.add(new ProfileDTO(profile)));
     }
 
     public Long getId() {
@@ -64,5 +70,13 @@ public class UserDTO implements Serializable {
 
     public void setPlan(Long plan) {
         this.plan = plan;
+    }
+
+    public Set<RoleDTO> getRoles() {
+        return roles;
+    }
+
+    public List<ProfileDTO> getProfiles() {
+        return profiles;
     }
 }

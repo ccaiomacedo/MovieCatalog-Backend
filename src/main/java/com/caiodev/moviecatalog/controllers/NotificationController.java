@@ -20,14 +20,8 @@ public class NotificationController {
 
     @GetMapping()
     public ResponseEntity<Page<NotificationDTO>> findAllPaged(Pageable pageable) {
-        Page<NotificationDTO> page = service.findAllPaged(pageable);
+        Page<NotificationDTO> page = service.notificationForCurrentUser(pageable);
         return ResponseEntity.ok().body(page);
-    }
-
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<NotificationDTO> findById(@PathVariable Long id) {
-        NotificationDTO dto = service.findById(id);
-        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping()

@@ -1,14 +1,11 @@
 package com.caiodev.moviecatalog.services;
 
-import com.caiodev.moviecatalog.dto.NotificationDTO;
 import com.caiodev.moviecatalog.dto.SectionDTO;
-import com.caiodev.moviecatalog.entities.MovieList;
-import com.caiodev.moviecatalog.entities.Notification;
 import com.caiodev.moviecatalog.entities.Section;
 import com.caiodev.moviecatalog.entities.User;
-import com.caiodev.moviecatalog.repositories.NotificationRepository;
 import com.caiodev.moviecatalog.repositories.SectionRepository;
 import com.caiodev.moviecatalog.services.exceptions.DatabaseException;
+import com.caiodev.moviecatalog.services.exceptions.ForbiddenException;
 import com.caiodev.moviecatalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,6 +23,9 @@ public class SectionService {
     @Autowired
     SectionRepository repository;
 
+    @Autowired
+    private AuthService authService;
+
     @Transactional(readOnly = true)
     public Page<SectionDTO> findAllPaged(Pageable pageable) {
         Page<Section> page = repository.findAll(pageable);
@@ -41,19 +41,30 @@ public class SectionService {
 
     @Transactional
     public SectionDTO insert(SectionDTO dto) {
-        Section entity = new Section();
-        copyEntityToDto(entity, dto);
-        entity = repository.save(entity);
-        return new SectionDTO(entity);
+        User user = authService.authenticated();
+        if (user.hasHole("ROLE_ADMIN")) {
+            Section entity = new Section();
+            copyEntityToDto(entity, dto);
+            entity = repository.save(entity);
+            return new SectionDTO(entity);
+        } else {
+            throw new ForbiddenException("Access denied");
+        }
+
     }
 
     @Transactional
     public SectionDTO update(SectionDTO dto, Long id) {
         try {
-            Section entity = repository.getOne(id);
-            copyEntityToDto(entity, dto);
-            entity = repository.save(entity);
-            return new SectionDTO(entity);
+            User user = authService.authenticated();
+            if (user.hasHole("ROLE_ADMIN")) {
+                Section entity = repository.getOne(id);
+                copyEntityToDto(entity, dto);
+                entity = repository.save(entity);
+                return new SectionDTO(entity);
+            } else {
+                throw new ForbiddenException("Access denied");
+            }
         } catch (Exception e) {
             throw new ResourceNotFoundException("Id not found: " + id);
         }
@@ -61,7 +72,12 @@ public class SectionService {
 
     public void delete(Long id) {
         try {
-            repository.deleteById(id);
+            User user = authService.authenticated();
+            if (user.hasHole("ROLE_ADMIN")) {
+                repository.deleteById(id);
+            } else {
+                throw new ForbiddenException("Access denied");
+            }
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Id not found: " + id);
         } catch (DataIntegrityViolationException e) {

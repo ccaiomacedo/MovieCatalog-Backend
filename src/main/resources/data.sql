@@ -1,8 +1,8 @@
 INSERT INTO tb_plan(price,name) values (15,'2 Telas');
 INSERT INTO tb_plan(price,name) values (30,'4 Telas');
 
-INSERT INTO tb_user (username, email, password,plan_id) VALUES ('Alex' , 'alex@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG',2);
-INSERT INTO tb_user (username, email, password,plan_id) VALUES ('Maria', 'maria@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG',1);
+INSERT INTO tb_user (name, email, password,plan_id) VALUES ('Alex' , 'alex@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG',2);
+INSERT INTO tb_user (name, email, password,plan_id) VALUES ('Maria', 'maria@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG',1);
 
 INSERT INTO tb_role (authority) VALUES ('ROLE_USER');
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
@@ -47,10 +47,10 @@ INSERT INTO tb_movie_list(title) values ('Minha Lista');
 INSERT INTO tb_movie_list(title) values ('Minha Lista');
 INSERT INTO tb_movie_list(title) values ('Minha Lista');
 
-INSERT INTO tb_profile(name,user_id) values ('Luiz',1);
-INSERT INTO tb_profile(name,user_id) values ('Bob',1);
-INSERT INTO tb_profile(name,user_id) values ('Maria',1);
-INSERT INTO tb_profile(name,user_id) values ('jeredy',1);
+INSERT INTO tb_profile(name,user_id,movie_list_id) values ('Luiz',1,1);
+INSERT INTO tb_profile(name,user_id,movie_list_id) values ('Bob',1,2);
+INSERT INTO tb_profile(name,user_id,movie_list_id) values ('Maria',1,3);
+INSERT INTO tb_profile(name,user_id,movie_list_id) values ('jeredy',1,4);
 
 INSERT INTO tb_profile(name,user_id,movie_list_id) values ('José',2,5);
 INSERT INTO tb_profile(name,user_id,movie_list_id) values ('João',2,6);

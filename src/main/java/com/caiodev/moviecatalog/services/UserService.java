@@ -15,6 +15,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
 
     @Autowired
@@ -37,6 +40,9 @@ public class UserService {
     @Autowired
     public ProfileRepository profileRepository;
 
+    @Autowired
+    public AuthService service;
+
 
     @Transactional(readOnly = true)
     public Page<UserDTO> findAllPaged(Pageable pageable) {
@@ -46,6 +52,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
+        service.validateSelfOrAdmin(id);
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Resource not found!"));
         return new UserDTO(entity);
@@ -83,7 +90,7 @@ public class UserService {
     }
 
     public void copyEntityToDto(UserDTO userDTO, User user) {
-        user.setUsername(userDTO.getUsername());
+        user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setPlan(new Plan(userDTO.getPlan(), null, null));
 
@@ -100,5 +107,14 @@ public class UserService {
             user.getProfiles().add(profile);
         }
 
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = repository.findByEmail(s);
+        if (user == null) {
+            throw new UsernameNotFoundException("Email not found" + s);
+        }
+        return user;
     }
 }

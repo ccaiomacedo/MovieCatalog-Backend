@@ -1,8 +1,6 @@
 package com.caiodev.moviecatalog.controllers.exceptions;
 
-import com.caiodev.moviecatalog.services.exceptions.DatabaseException;
-import com.caiodev.moviecatalog.services.exceptions.MaxProfileException;
-import com.caiodev.moviecatalog.services.exceptions.ResourceNotFoundException;
+import com.caiodev.moviecatalog.services.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -37,6 +35,7 @@ public class ResourceExceptionHandler {
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
     @ExceptionHandler(MaxProfileException.class)
     public ResponseEntity<StandardError> maxLimit(MaxProfileException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -47,5 +46,17 @@ public class ResourceExceptionHandler {
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
+        OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<OAuthCustomError> unauthorized(UnauthorizedException e, HttpServletRequest request) {
+        OAuthCustomError err = new OAuthCustomError("Unauthorized", e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
     }
 }

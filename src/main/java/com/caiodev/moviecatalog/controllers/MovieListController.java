@@ -21,12 +21,14 @@ public class MovieListController {
     @GetMapping()
     public ResponseEntity<Page<MovieListDTO>> findAllPaged(Pageable pageable) {
         Page<MovieListDTO> page = service.findAllPaged(pageable);
+        String teste;
         return ResponseEntity.ok().body(page);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<MovieListDTO> findById(@PathVariable Long id) {
         MovieListDTO dto = service.findById(id);
+        String teste;
         return ResponseEntity.ok().body(dto);
     }
 

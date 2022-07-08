@@ -7,6 +7,7 @@ import com.caiodev.moviecatalog.entities.Notification;
 import com.caiodev.moviecatalog.repositories.NotificationRepository;
 import com.caiodev.moviecatalog.repositories.NotificationRepository;
 import com.caiodev.moviecatalog.services.exceptions.DatabaseException;
+import com.caiodev.moviecatalog.services.exceptions.ForbiddenException;
 import com.caiodev.moviecatalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,36 +24,43 @@ import java.util.Optional;
 public class NotificationService {
 
     @Autowired
-    NotificationRepository repository;
+    private NotificationRepository repository;
+
+    @Autowired
+    private AuthService authService;
 
     @Transactional(readOnly = true)
-    public Page<NotificationDTO> findAllPaged(Pageable pageable) {
-        Page<Notification> page = repository.findAll(pageable);
+    public Page<NotificationDTO> notificationForCurrentUser(Pageable pageable) {
+        User user = authService.authenticated();
+        Page<Notification> page = repository.find(user, pageable);
         return page.map(x -> new NotificationDTO(x));
-    }
-
-    @Transactional(readOnly = true)
-    public NotificationDTO findById(Long id) {
-        Optional<Notification> obj = repository.findById(id);
-        Notification entity = obj.orElseThrow(() -> new ResourceNotFoundException("Resource not found!"));
-        return new NotificationDTO(entity);
     }
 
     @Transactional
     public NotificationDTO insert(NotificationDTO dto) {
+        User user = authService.authenticated();
         Notification entity = new Notification();
         copyEntityToDto(entity, dto);
-        entity = repository.save(entity);
-        return new NotificationDTO(entity);
+        if (user.hasHole("ROLE_ADMIN")) {
+            entity = repository.save(entity);
+            return new NotificationDTO(entity);
+        } else {
+            throw new ForbiddenException("Access denied");
+        }
     }
 
     @Transactional
     public NotificationDTO update(NotificationDTO dto, Long id) {
         try {
+            User user = authService.authenticated();
             Notification entity = repository.getOne(id);
             copyEntityToDto(entity, dto);
-            entity = repository.save(entity);
-            return new NotificationDTO(entity);
+            if (user.hasHole("ROLE_ADMIN")) {
+                entity = repository.save(entity);
+                return new NotificationDTO(entity);
+            } else {
+                throw new ForbiddenException("Access denied");
+            }
         } catch (Exception e) {
             throw new ResourceNotFoundException("Id not found: " + id);
         }
@@ -60,7 +68,12 @@ public class NotificationService {
 
     public void delete(Long id) {
         try {
-            repository.deleteById(id);
+            User user = authService.authenticated();
+            if (user.hasHole("ROLE_ADMIN")) {
+                repository.deleteById(id);
+            } else {
+                throw new ForbiddenException("Access denied");
+            }
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Id not found: " + id);
         } catch (DataIntegrityViolationException e) {
